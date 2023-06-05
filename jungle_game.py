@@ -1,15 +1,23 @@
 import pygame
 
 pygame.init()
-Right_walking = [pygame.image.load('R1.png'), pygame.image.load('R2.png'), pygame.image.load('R3.png'),
-                 pygame.image.load('R4.png'), pygame.image.load('R5.png'), pygame.image.load('R6.png'),
-                 pygame.image.load('R7.png'), pygame.image.load('R8.png'), pygame.image.load('R9.png')]
-Left_walking = [pygame.image.load('L1.png'), pygame.image.load('L2.png'), pygame.image.load('L3.png'),
-                pygame.image.load('L4.png'), pygame.image.load('L5.png'), pygame.image.load('L6.png'),
-                pygame.image.load('L7.png'), pygame.image.load('L8.png'), pygame.image.load('L9.png')]
-rocks = [pygame.image.load('1.png'), pygame.image.load('2.png'), pygame.image.load('3.png'), pygame.image.load('4.png'),
-         pygame.image.load('5.png'), pygame.image.load('6.png'), pygame.image.load('7.png'), pygame.image.load('8.png'),
-         pygame.image.load('9.png')]
+Right_walking = [pygame.image.load('./right_left/R1.png'), pygame.image.load('./right_left/R2.png'),
+                 pygame.image.load('./right_left/R3.png'),
+                 pygame.image.load('./right_left/R4.png'), pygame.image.load('./right_left/R5.png'),
+                 pygame.image.load('./right_left/R6.png'),
+                 pygame.image.load('./right_left/R7.png'), pygame.image.load('./right_left/R8.png'),
+                 pygame.image.load('./right_left/R9.png')]
+Left_walking = [pygame.image.load('./right_left/L1.png'), pygame.image.load('./right_left/L2.png'),
+                pygame.image.load('./right_left/L3.png'),
+                pygame.image.load('./right_left/L4.png'), pygame.image.load('./right_left/L5.png'),
+                pygame.image.load('./right_left/L6.png'),
+                pygame.image.load('./right_left/L7.png'), pygame.image.load('./right_left/L8.png'),
+                pygame.image.load('./right_left/L9.png')]
+rocks = [pygame.image.load('./rocks/1.png'), pygame.image.load('./rocks/2.png'), pygame.image.load('./rocks/3.png'),
+         pygame.image.load('./rocks/4.png'),
+         pygame.image.load('./rocks/5.png'), pygame.image.load('./rocks/6.png'), pygame.image.load('./rocks/7.png'),
+         pygame.image.load('./rocks/8.png'),
+         pygame.image.load('./rocks/9.png')]
 
 bgs = [pygame.transform.scale(pygame.image.load('jungle_day.jpg'), (1450, 750)),
        pygame.transform.scale(pygame.image.load('jungle_evening.jpg'), (1450, 750)),
@@ -41,6 +49,7 @@ char_x = 20
 char_y = 750 - (110 + height)
 
 change_pos = 3
+ran = 0
 
 rocks_x = [1450]
 rocks_y = 450
@@ -53,7 +62,7 @@ n = 0
 
 
 def rock_movement(a=3):
-    global rocks_speed, score
+    global rocks_speed, score, ran
     rock_out = False
     for r in rocks_x:
         if len(rocks_x) < a and r in range(rock_line1, rock_line2):
@@ -66,6 +75,10 @@ def rock_movement(a=3):
         else:
             rocks_x.remove(r)
             score += 1
+            if ran + 1 < 9:
+                ran += 1
+            else:
+                ran = 1
 
 
 def game_over():
@@ -89,12 +102,12 @@ def draw_game():
 
     win.blit(bgs[n], (0, 0))
     for r in rocks_x:
-        win.blit(rocks[0], (r, rocks_y))
+        win.blit(rocks[ran], (r, rocks_y))
 
     if walk_count + 1 >= 27:
         walk_count = 0
 
-    if left:  # If we are facing left
+    if left:
         win.blit(Left_walking[walk_count // 3], (char_x, char_y))
         walk_count += 1
     elif right:
